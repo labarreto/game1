@@ -1,15 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package game1;
 
+
 /**
- *
- * @author ldbruby95
+ * Copyright 2009, 2010, 2011, 2012 Viera K. Proulx
+ * This program is distributed under the terms of the 
+ * GNU Lesser General Public License (LGPL)
  */
-public class Versions {
-    
+
+/**
+ * Interface that records the changes in the library versions
+ * @author Viera K. Proulx
+ * @since 26 June 2012, 8 August 2012
+ */
+public interface Versions{
+  String CURRENT_VERSION = "funworld version 1.0 --- 26 June  2012" + "\n" +
+                           "-----------------------------------------" + "\n";
+  String VERSION_1_0 = "funworld version 1.0 --- 26 June 2012";
 }

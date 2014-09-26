@@ -8,7 +8,7 @@ package game1;
 
 /**
  *
- * @author ldbruby95
+ * @author Laura Barreto
  */
 public class Game1 {
 

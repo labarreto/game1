@@ -6,6 +6,33 @@
 
 package game1;
 
+
+import tester.*;
+import javalib.impworld.*;
+import javalib.colors.*;
+import javalib.worldimages.*;
+import java.util.*;
+import java.awt.Color;
+
+interface fishTank{
+    public Random rand = new Random();
+    //generates random num
+    
+    public int WIDTH = 500;
+    //setting screen width.
+    
+    public int HEIGHT = 750;
+    //setting screen height
+    
+    public Color tankColor = new Color(50,150,255);
+    //color of ocean. 
+    
+    public Posn position = new Posn(WIDTH/2, HEIGHT/2);
+    public String fileName = new String("/Users/ldbruby95/NetBeansProjects/game1/tankback.png");
+
+    public WorldImage tankImage = new FromFileImage(position, fileName);
+    // creating background image from file.
+}
 /**
  *
  * @author Laura Barreto

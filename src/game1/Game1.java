@@ -14,7 +14,7 @@ import javalib.worldimages.*;
 import java.util.*;
 import java.awt.Color;
 
-interface fishTank{
+interface fishTankConst{
     public Random rand = new Random();
     //generates random num
     
@@ -33,6 +33,37 @@ interface fishTank{
     public WorldImage tankImage = new FromFileImage(position, fileName);
     // creating background image from file.
 }
+
+class movePoint extends Posn implements fishTankConst {
+    movePoint(int x, int y) {
+        super(x,y);
+    }
+    //if x out of bounds to the left, have fish not be able to move anymore to the left
+    void moveLeft() {
+        if (this.x < 0) {
+            this.x = 0;
+        } else {
+            this.x = this.x;
+        }
+    }
+    
+    //if y out of bounds to the right, have fish not be able to move anymore to the right
+    void moveRight() {
+        if (this.x > WIDTH) {
+            this.x = WIDTH;
+        } else {
+            this.x = this.x;
+        }
+    }
+    
+}
+
+class Fishy implements fishTankConst {
+  int y; //want y to be 1/2 of the image pic 
+  int lives;
+}
+
+
 /**
  *
  * @author Laura Barreto

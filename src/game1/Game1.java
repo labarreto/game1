@@ -6,149 +6,99 @@
 package game1;
 
 import tester.*;
-import javalib.impworld.*;
+import javalib.funworld.*;
 import javalib.colors.*;
 import javalib.worldimages.*;
 import java.util.*;
 import java.awt.Color;
 
-interface fishTankConst {
+class Fishy {
 
-    public Random rand = new Random();
-    //generates random num
-    public int randNum = rand.nextInt();
+    int x;
+    int y;
+    int width;
+    int height;
+    WorldImage fish;
+    String fishFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/fishy.png");
 
-    public int WIDTH = 500;
-    //setting screen width.
-
-    public int HEIGHT = 750;
-    //setting screen height
-
-    public Color tankColor = new Color(50, 150, 255);
-    //color of ocean. 
-
-    public Posn position = new Posn(WIDTH / 2, HEIGHT / 2);
-    public String fileName = new String("/Users/ldbruby95/NetBeansProjects/game1/tankback.png");
-
-    public WorldImage tankImage = new FromFileImage(position, fileName);
-    // creating background image from file.
-}
-
-//cart Pt stands for cartesian point. 
-class cartPt extends Posn implements fishTankConst {
-
-    cartPt(int x, int y) {
-        super(x, y);
+    public Fishy(Posn pin) {
+//        this.width = width;
+//        this.height = height;
+        this.x = pin.x;
+        this.y = pin.y;
+        fish = new FromFileImage(pin, fishFileName);
+        this.width = fish.getWidth();
+        this.height = fish.getHeight();
     }
 
-    //if x out of bounds to the left, have fish not be able to move anymore to the left
-    void moveLeft(int i) {
-        if (this.x - i < 0) {
-            this.x = WIDTH;
+    public Fishy moveFishy(String ke) {
+        if (ke.equals("right")) {
+            return new Fishy(new Posn(x + 5, y));
+        } else if (ke.equals("left")) {
+            return new Fishy(new Posn(x - 5, y));
+
+        } else if (ke.equals("up")) {
+            return new Fishy(new Posn(x, y - 5));
+        } else if (ke.equals("down")) {
+            return new Fishy(new Posn(x, y + 5));
         } else {
-            this.x = this.x - i;
+            return this;
         }
     }
 
-    //if y out of bounds to the right, have fish not be able to move anymore to the right
-    void moveRight() {
-        if (this.x > WIDTH) {
-            this.x = WIDTH;
+
+}
+
+
+
+public class Game1 extends World {
+
+    int WIDTH = 500;
+    int HEIGHT = 750;
+    Fishy fishy;
+    int x = WIDTH/2;
+    int y = HEIGHT/2;
+    Posn center = new Posn (x,y);
+    Random rand = new Random();
+    int randNum = rand.nextInt();
+    String backFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/tankback.png");
+    WorldImage background;
+
+    public Game1(Fishy fishy) {// Food food, Poison poison
+        super();
+        this.fishy = fishy;
+        background = new FromFileImage(center,backFileName);
+
+    }
+    
+    public WorldImage makeImage() {
+        //overlaying fish image on the background image.
+        return new OverlayImages(this.fishy.fish,this.background);
+    }
+
+    public World onKeyEvent(String ke) {
+        if (ke.equals("q")) {
+            return this.endOfWorld("Goodbye");
         } else {
-            this.x = this.x;
+            return new Fishy(moveFishy(ke));
+        }
+
+    }
+
+    public int randomInt() {
+        if (randNum < WIDTH) {
+            return randNum;
+        } else {
+            //if randnUm is bigger than Width,
+            return randNum % WIDTH; //return remainder (which will def. be 
         }
     }
 
 }
 
-class Fishy implements fishTankConst {
+interface Nourishments { //short for nourishment
 
-    int x; //want y to be 1/2 of the image pic 
-    int lives;
-
-    Fishy(int y, int lives) {
-        this.x = x;
-        this.lives = lives;
-    }
-
-    cartPt sharkPos() {
-        return new cartPt(20, this.x);
-    }
-
-    void move(String keyEvent) {
-        if (keyEvent.equals("up")) {
-            this.x = this.x - 3;
-        } else if (keyEvent.equals("down")) {
-            this.x = this.x + 3;
-        }
-    }
-
-    WorldImage fishyImage() {
-        return new FromFileImage(this.sharkPos(), "/Users/ldbruby95/NetBeansProjects/game1/fish.png");
-    }
-
-    void poison() {
-        this.lives = this.lives - 1;
-    }
-    
-    boolean isDeadHuh() {
-        return this.lives <=0;
-    }
-    
-    void eating() {
-        this.lives = this.lives;
-        //this might need to take in a food thing
-    }
-}
-
-
-
-class Food implements fishTankConst {
-    cartPt pt;
-    int size;
-    String name;
-    
-    Food(cartPt p, int size, String name) {
-        this.pt = pt;
-        this.size = size;
-        this.name = name;
-    }
-    
-    void start (int y, int size) {
-        if (randNum <= WIDTH) {
-            this.pt.x = randNum;
-        }
-               
-        this.pt.y= 0;
-        this.size = size;
-    }
-    
-    void moveStart () {
-        this.start(this.pt.y, this.size);
-    }
-    void moveFood() {
-        //move food down
-    }
-    
-    
-
-}
-
-class Poison implements fishTankConst {
-
-}
-
-/**
- *
- * @author Laura Barreto
- */
-public class Game1 {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+    public int width = 10;
+    public int height = 10;
 
 }

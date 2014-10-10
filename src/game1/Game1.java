@@ -13,6 +13,7 @@ import java.util.*;
 import java.awt.Color;
 
 class Fishy {
+    int eat;
     Random rand = new Random();
     int randNum = rand.nextInt();
     int x;
@@ -36,28 +37,28 @@ class Fishy {
         this.lives = 3; //initial with 3 lives
         this.score = 0; //initial score 0
     }
-    
+
     public int foodDistance(Food food) {
-        
-        int diffX = this.x-food.pin.x;
-        int diffY = this.y-food.pin.x;
-        int distance = (int) Math.sqrt((diffX*diffX) + (diffY*diffY));
+
+        int diffX = this.x - food.pin.x;
+        int diffY = this.y - food.pin.x;
+        int distance = (int) Math.sqrt((diffX * diffX) + (diffY * diffY));
         return distance;
-       
+
     }
-    
+
     public int poisonDistance(Poison poison) {
-        int diffX = this.x-poison.pin.x;
-        int diffY = this.y-poison.pin.y;
-        int distance = (int) Math.sqrt((diffX*diffX) + (diffY*diffY));
-        return distance;     
-    }
+        int diffX = this.x - poison.pin.x;
+        int diffY = this.y - poison.pin.y;
+        int distance = (int) Math.sqrt((diffX * diffX) + (diffY * diffY));
+        return distance;
+    }   
     
-    public boolean eatHuh() {
-        
-        return true;
-    }
+
     
+    
+    
+
 
     public Fishy moveFishy(String ke) {
         if (ke.equals("right") && ((this.pin.x + this.width / 2) < 500)) {
@@ -72,28 +73,34 @@ class Fishy {
             return this;
         }
     }
-    
 
     //setting fish
-    public void setFishy (int x, int y) {
+    public void setFishy(int x, int y) {
         this.pin = new Posn(x, y);
     }
 
 }
+
 interface Nourishments {
 
-   public boolean isPoison();
-
+    public boolean isPoison();
 }
 
-class Food implements Nourishments{
-   public Posn pin;
-   public int width;
-   public int height;
-   public int r;
-   public IColor color = new Yellow();
-   public WorldImage foodImage;
-   
+abstract class Nourishment{
+    Nourishment nourishment;
+        
+}
+
+class Food extends Nourishment { // before i had implements Nourishments interface
+                                  // cause of common isPoison method.
+    int eat = 5;
+    public Posn pin;
+    public int width;
+    public int height;
+    public int r;
+    public IColor color = new Yellow();
+    public WorldImage foodImage;
+
     Random rand = new Random();
     int randNum = rand.nextInt();
     int x;
@@ -101,56 +108,47 @@ class Food implements Nourishments{
 
     WorldImage food;
 
-   public boolean isPoison() {
-       return false;
-   }
-   public Food(Posn pin) {
-       foodImage = new RectangleImage(pin, width, height, color);
-       
-       
-   }
-   
-   
-   public WorldImage foodImage(){
-       
-       return new RectangleImage(this.pin,this.width,this.height,this.color);
-   }
-   
-   
-   
-   public boolean eatHuh(){
-       //if food of distance 5, fishy eats food, plus 1 point!
-       return true;
-   }
-   
+    public boolean isPoison() {
+        return false;
+    }
+
+    public Food(Posn pin) {
+        foodImage = new RectangleImage(pin, width, height, color);
+
+    }
+
+    public WorldImage foodImage() {
+
+        return new RectangleImage(this.pin, this.width, this.height, this.color);
+    }
+
 }
 
+class Poison extends Nourishment {
 
-class Poison implements Nourishments {
-   public Posn pin;
-   public int width;
-   public int height;
-   public int r;
-   public IColor color = new Red();
-   
+    public Posn pin;
+    public int width;
+    public int height;
+    public int r;
+    public IColor color = new Red();
+
     Random rand = new Random();
     int randNum = rand.nextInt();
     int x;
     int y;
     public WorldImage poisonImage;
-    
-    
+
     public boolean isPoison() {
         return true;
     }
+
     public Poison(Posn pin) {
-        
+
         poisonImage = new RectangleImage(pin, width, height, color);
     }
-    
 
-    
 }
+
 public class Game1 extends World {
 
     int WIDTH = 500;
@@ -199,5 +197,3 @@ public class Game1 extends World {
     //    the falling food blocks. 
 //    }
 }
-
-

@@ -13,28 +13,35 @@ class Fishy {
     int score = 0;
 
     Posn pin;
-    int x;
-    int y;
 
+    IColor color;
     String fishFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/fishy.png");
     WorldImage fish;
     Nourishment nourishment;
-    int width = fish.getWidth();
-    int height = fish.getHeight();
+    int width;// = fish.getWidth();
+    int height;// = fish.getHeight();
     int outBoundsRight = 500 - ((this.pin.x + this.width / 2));
     int outBoundsLeft = 0 + ((this.pin.x - this.width / 2));
     int outBoundsUp = 0 + ((this.pin.y = this.height / 2));
     int outBoundsDown = 750 - ((this.pin.y + this.height / 2));
 
-    public Fishy(Posn pin) {
+    public Fishy(Posn pin, WorldImage fish) {
+        this.fish = new FromFileImage(pin, fishFileName);
+        this.width = fish.getWidth();
+        this.height = fish.getHeight();
         this.pin = pin;
-        this.x = pin.x;
-        this.y = pin.y;
         this.width = fish.getWidth();
         this.height = fish.getHeight();
         //        this.lives = 3; //initial with 3 lives
 //        this.score = 0; //initial score 0
 
+    }
+    
+    public Fishy(Posn pin, int width, int height, IColor color){
+        this.pin = pin;
+        this.width = width;
+        this.height = height;
+        this.color = color;
     }
 
     public WorldImage fishImage() {
@@ -47,8 +54,8 @@ class Fishy {
 
         //method to tell the distance between the fish and the nourishment item
         //to be used to tell if fish is eating object
-        int diffX = this.x - nourishment.posn.x;
-        int diffY = this.y - nourishment.posn.y;
+        int diffX = this.pin.x - nourishment.posn.x;
+        int diffY = this.pin.y - nourishment.posn.y;
         int distance = (int) Math.sqrt((diffX * diffX) + (diffY * diffY));
         return distance;
 
@@ -94,14 +101,14 @@ class Fishy {
 
         if (ke.equals("right") && ((this.pin.x + this.width / 2) < outBoundsRight)) {
             // if the fish moves to the right, AND the right most point of fish image is not out of bounds,
-            return new Fishy(new Posn(x + 1, y));
+            return new Fishy(new Posn(pin.x + 1, pin.y), fish);
             // move fish to the right. 
         } else if (ke.equals("left") && ((this.pin.x - this.width / 2) > outBoundsLeft)) {
-            return new Fishy(new Posn(x - 1, y));
+            return new Fishy(new Posn(pin.x - 1, pin.y), fish);
         } else if (ke.equals("up") && ((this.pin.y - this.height / 2) > outBoundsUp)) {
-            return new Fishy(new Posn(x, y - 1));
+            return new Fishy(new Posn(pin.x, pin.y - 1), fish);
         } else if (ke.equals("down") && ((this.pin.y + this.height / 2) < outBoundsDown)) {
-            return new Fishy(new Posn(x, y + 1));
+            return new Fishy(new Posn(pin.x, pin.y + 1), fish);
         } else {
             return this;
         }
@@ -192,7 +199,7 @@ class Nourishment {
 
         int screenWIDTH= 500;
         int screenHEIGHT=750;
-        Fishy fishy;
+        static Fishy fishy;
         //Nourishment nourishment;
         int lives;
         int score;
@@ -241,6 +248,7 @@ class Nourishment {
             if (ke.equals("q")) {
                 return this.endOfWorld("Goodbye! See you later!");
             } else {
+                this.fishy.moveFishy(ke);
                 return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, this.fishy, this.nourishments);
             }
 
@@ -292,7 +300,7 @@ class Nourishment {
             
             // public Game1(int width, int height, int lives, int score, 
             //              Fishy fishy, LinkedList<Nourishment> nourishments)
-            Game1 game = new Game1(550, 1000, 3, 0, new Fishy(center), yayNora);
+            Game1 game = new Game1(550, 1000, 3, 0, new Fishy(center, fishy.fish), yayNora);
             game.bigBang(550, 1000, 0.1);
             
         }

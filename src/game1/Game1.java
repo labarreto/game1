@@ -1,4 +1,3 @@
-
 package game1;
 
 import tester.*;
@@ -14,8 +13,8 @@ class Fishy {
     int score = 0;
 
     Posn pin;
-    int x = pin.x;
-    int y = pin.y;
+    int x;
+    int y;
 
     String fishFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/fishy.png");
     WorldImage fish;
@@ -29,8 +28,8 @@ class Fishy {
 
     public Fishy(Posn pin) {
         this.pin = pin;
-//        this.x = pin.x;
-//        this.y = pin.y;
+        this.x = pin.x;
+        this.y = pin.y;
         this.width = fish.getWidth();
         this.height = fish.getHeight();
         //        this.lives = 3; //initial with 3 lives
@@ -45,6 +44,7 @@ class Fishy {
 
     public int Distance(Nourishment nourishment) {
         this.nourishment = nourishment;
+
         //method to tell the distance between the fish and the nourishment item
         //to be used to tell if fish is eating object
         int diffX = this.x - nourishment.posn.x;
@@ -65,14 +65,18 @@ class Fishy {
         }
     }
 
-    public void poisonedHuh(Nourishment nourishment) {
+    public boolean poisonedHuh(Nourishment nourishment) {
         if (eatHuh(nourishment) && nourishment.isPoison()) {
             //if fish is eating nourishment, and the nourishment is poison,
             //decrease amount of lives
+            
             this.lives--;
+            return true;
+            
         } else {
             //else, would be if nourishment is food. increase score
             this.score++;
+            return false;
         }
     }
 
@@ -126,6 +130,7 @@ class Nourishment {
     int rate;
     int width = 10;
     int height = 10;
+    IColor color;
     IColor colorFood = new Yellow();
     IColor colorPoison = new Red();
     
@@ -135,6 +140,20 @@ class Nourishment {
         this.rate = rate;
         this.posn = new Posn(Utility.randInt(5,495),0);
     }
+    
+    public Nourishment() {
+        posn = (new Posn(Utility.randInt(0,15), 0));
+        width = 10;
+        height = 10;
+        rate = Utility.randInt(0,15);
+        if (Utility.coinToss()){
+             color = new Yellow();
+        } else {
+            color = new Red();
+        }
+    }
+    
+    
     
     public Nourishment move() {
         Nourishment nourishment = 
@@ -147,8 +166,10 @@ class Nourishment {
     public WorldImage drawImage() {
         if (Utility.coinToss()){
             //in the case of true, return block that has food color
+            //FOOD
             return new RectangleImage(this.posn, this.width,this.height, colorFood);
         } else {
+            //false, Poison image
             return new RectangleImage(this.posn, this.width, this.height, colorPoison);
         }
     }
@@ -169,26 +190,26 @@ class Nourishment {
 
     public class Game1 extends World {
 
-        int screenWIDTH;
-        int screenHEIGHT;
+        int screenWIDTH= 500;
+        int screenHEIGHT=750;
         Fishy fishy;
-        Nourishment nourishment;
+        //Nourishment nourishment;
         int lives;
         int score;
         int x = screenWIDTH / 2;
         int y = screenHEIGHT / 2;
-        Posn center = new Posn(x, y);
+        static Posn center = new Posn(250, 375);
         Random rand = new Random();
         int randNum = rand.nextInt();
         String backFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/tankback.png");
         WorldImage background;
         LinkedList nourishments;
 
-        public Game1(int width, int height, int lives, int score, Fishy fishy, Nourishment nourishment, LinkedList<Nourishment> nourishments) {// Food food, Poison poison
+        public Game1(int width, int height, int lives, int score, Fishy fishy, LinkedList<Nourishment> nourishments) {
             this.screenWIDTH = width;
             this.screenHEIGHT = height;
             this.fishy = fishy;
-            this.nourishment = nourishment;
+            //this.nourishment = nourishment;
             this.nourishments = nourishments;
             this.lives = lives;
             this.score = score;
@@ -200,12 +221,18 @@ class Nourishment {
 
         public WorldImage makeImage() {
             //overlaying fish image on the background image.
+            
+            Iterator<Nourishment> yay = nourishments.listIterator(0);
+            
             WorldImage world = new OverlayImages(this.fishy.fish,
-                    new OverlayImages(this.nourishment.drawImage(), //want this to represent changing food
                             new OverlayImages(
                                     new TextImage(new Posn(400, 20), "Lives:  " + lives, 20, new Black()),
                                     new OverlayImages(
-                                            new TextImage(new Posn(400, 40), "Score:  " + score, 20, new Black()), this.background))));
+                                            new TextImage(new Posn(400, 40), "Score:  " + score, 20, new Black()), this.background)));
+            
+            while(yay.hasNext()) {
+                world = new OverlayImages(world, yay.next().drawImage());
+            }
 
             return world;
         }
@@ -214,15 +241,31 @@ class Nourishment {
             if (ke.equals("q")) {
                 return this.endOfWorld("Goodbye! See you later!");
             } else {
-                return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, this.fishy, this.nourishment, this.nourishments);
+                return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, this.fishy, this.nourishments);
             }
 
         }
 
         public World onTick() {
-            //on tick, want nourishment to fall down
-            nourishment.posn.y = nourishment.posn.y++;
-            return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, this.fishy, this.nourishment, this.nourishments);
+            Iterator<Nourishment> yay = nourishments.listIterator(0);
+            
+            while (yay.hasNext()) {
+                yay.next().move();
+                //moves through list. 
+            }
+
+            yay = nourishments.listIterator(0);
+            while (yay.hasNext()) {
+                Nourishment listNourishment = yay.next();
+                if (fishy.eatHuh(listNourishment) && (!fishy.poisonedHuh(listNourishment))) {
+                    score++;
+                } else {
+                    lives++;
+                }
+            }
+           
+           
+            return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, this.fishy, this.nourishments);
         }
 
         public WorldEnd worldEnd() {
@@ -231,20 +274,28 @@ class Nourishment {
                 return new WorldEnd(true,
                         //overlay the background with text that displays game over, and the final score
                         new OverlayImages(background,
-                                new OverlayImages(new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2 - 30), "GAME OVER", 30, new Black()),
-                                        new TextImage(new Posn(screenWIDTH / 2, screenHEIGHT / 2), "Final Score: " + score, 20, new Black()))));
+                                new OverlayImages(new TextImage(new Posn(x, y-30), "GAME OVER", 30, new Black()),
+                                        new TextImage(new Posn(x, y), "Final Score: " + score, 20, new Black()))));
             } else {
                 //if not dead, just return normal image. 
                 return new WorldEnd(false, this.makeImage());
             }
         }
+        
+        public static void main(String[] args) {
+            
+            LinkedList yayNora = new LinkedList();
+            yayNora.add(new Nourishment());
+            yayNora.add(new Nourishment());
+            yayNora.add(new Nourishment());
+            yayNora.add(new Nourishment());
+            
+            // public Game1(int width, int height, int lives, int score, 
+            //              Fishy fishy, LinkedList<Nourishment> nourishments)
+            Game1 game = new Game1(550, 1000, 3, 0, new Fishy(center), yayNora);
+            game.bigBang(550, 1000, 0.1);
+            
+        }
+        
+        
     }
-
-
-//    public static void main(String[] args) {
-//        Game1 game = new Game1(screenWIDTH, screenHEIGHT, fishy, nourishment);
-//        
-//        game.bigBang(screenWIDTH, HEIGHT,0.5);
-//    }
-//    
-

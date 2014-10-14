@@ -9,28 +9,27 @@ import java.awt.Color;
 
 class Fishy {
 
-
-
 //    IColor color;
     Posn pin;
     String fishFileName;
     WorldImage fish;
     int width;
     int height;
+    IColor color;
 
-    public Fishy(Posn pin, int width, int height, WorldImage fish) {
-//        fishFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/fishy.png");
-//        fish = new FromFileImage(new Posn(25, 25), fishFileName);
-////        color = color;
-//        this.width = fish.getWidth();
-//        this.height = fish.getHeight();
+//    public Fishy(Posn pin, int width, int height, WorldImage fish) {
+////        fishFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/fishy.png");
+////        fish = new FromFileImage(new Posn(25, 25), fishFileName);
+//////        color = color;
+////        this.width = fish.getWidth();
+////        this.height = fish.getHeight();
+////        this.pin = pin;
 //        this.pin = pin;
-        this.pin = pin;
-        this.width = width;
-        this.height = height;
-        this.fish = fish;
-
-    }
+//        this.width = width;
+//        this.height = height;
+//        this.fish = fish;
+//
+//    }
 
 //        public Fishy(Posn pin, IColor color) {
 //        this.fish = new FromFileImage(pin, fishFileName);
@@ -43,79 +42,39 @@ class Fishy {
 ////        this.score = 0; //initial score 0
 //
 //    }
-
     
-    public Fishy(Posn pin, int width, int height, IColor color) {
+    public Fishy(Posn pin, IColor color, int width, int height) {
         this.pin = pin;
         this.width = width;
         this.height = height;
- //       this.color = color;
+        this.color = color;
     }
 
+//    public WorldImage fishImage() {
+//        fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
+//        fish = new FromFileImage(pin, fishFileName);
+//        return fish;
+//    }
     public WorldImage fishImage() {
-        fishFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/fishy.png");
-        fish = new FromFileImage(pin, fishFileName);
+        fish = new EllipseImage(this.pin, this.width, this.height, this.color);
         return fish;
     }
 
-//        public WorldImage fishImage() {
-//        fish = new CircleImage(new Posn(25,25),5, new White());
-//        return fish;
-//    }
-    public int Distance(Nourishment nourishment) {
-        Nourishment nourishmentD = nourishment;
-
-        //method to tell the distance between the fish and the nourishment item
-        //to be used to tell if fish is eating object
-        int diffX = this.pin.x - nourishmentD.posn.x;
-        int diffY = this.pin.y - nourishmentD.posn.y;
-        int distance = (int) Math.sqrt((diffX * diffX) + (diffY * diffY));
-        return distance;
-
-    }
-
-    public boolean eatHuh(Nourishment nourishment) {
-        if (Distance(nourishment) < this.width / 2) {
-            //if the distance of the fish to the nourishment is less than
-            //half of the width of the fish, return true. 
-            return true;
-        } else {
-            //else return false
-            return false;
-        }
-    }
-
-    public boolean poisonedHuh(Nourishment nourishment) {
-        if (eatHuh(nourishment) && nourishment.isPoison()) {
-            //if fish is eating nourishment, and the nourishment is poison,
-            //decrease amount of lives
-
-            return true;
-
-        } else {
-            //else, would be if nourishment is food. increase score
-
-            return false;
-        }
-    }
-
-    public Fishy moveFishy(String ke) {
-        int outBoundsRight = 495;
-        int outBoundsLeft = 5;
-        int outBoundsUp = 5;
-        int outBoundsDown = 745;
-        if (ke.equals("right") && ((this.pin.x + this.width / 2) <= outBoundsRight)) {
+    public void moveFishy(String ke) {
+        int outBoundsRight = 500;
+        int outBoundsLeft = 0;
+        int outBoundsUp = 0;
+        int outBoundsDown = 700;
+        if (ke.equals("right") && ((this.pin.x + this.width) <= outBoundsRight)) {
             // if the fish moves to the right, AND the right most point of fish image is not out of bounds,
-            return new Fishy(new Posn(pin.x + 1, pin.y), width, height, fish);
+            this.pin = new Posn(this.pin.x + this.width, this.pin.y);
             // move fish to the right. 
-        } else if (ke.equals("left") && ((this.pin.x - this.width / 2) >= outBoundsLeft)) {
-            return new Fishy(new Posn(pin.x - 1, pin.y),width, height, fish);
-        } else if (ke.equals("up") && ((this.pin.y - this.height / 2) >= outBoundsUp)) {
-            return new Fishy(new Posn(pin.x, pin.y - 1),width, height, fish);
+        } else if (ke.equals("left") && ((this.pin.x - this.width) >= outBoundsLeft)) {
+            this.pin = new Posn(this.pin.x - this.width, this.pin.y);
+        } else if (ke.equals("up") && ((this.pin.y - this.height) >= outBoundsUp)) {
+            this.pin = new Posn(this.pin.x, this.pin.y - this.height);
         } else if (ke.equals("down") && ((this.pin.y + this.height / 2) <= outBoundsDown)) {
-            return new Fishy(new Posn(pin.x, pin.y + 1),width, height, fish);
-        } else {
-            return this;
+            this.pin = new Posn(this.pin.x, this.pin.y + this.height);
         }
     }
 
@@ -141,28 +100,27 @@ class Fishy {
 
 class Nourishment {
 
-    Nourishment nourishment;
     Posn posn; //one food generated each time. (on each clock tick.
     // so only necessary to have one. 
+
     int rate;
     int width = 10;
     int height = 10;
     IColor color;
-    IColor colorFood = new Yellow();
-    IColor colorPoison = new Red();
 
-    public Nourishment(Posn pos1, int width, int height, int rate) {
+    public Nourishment(Posn posn, IColor color, int width, int height, int rate) {
         this.width = width;
         this.height = height;
         this.rate = rate;
-        this.posn = new Posn(Utility.randInt(5, 495), 0);
+        this.posn = posn;
+        // this.posn = new Posn(Utility.randInt(5, 495), 0);
     }
 
     public Nourishment() {
-        posn = (new Posn(Utility.randInt(0, 15), 0));
+        posn = (new Posn(Utility.randInt(0, 500), 0));
         width = 10;
         height = 10;
-        rate = Utility.randInt(0, 15);
+        rate = Utility.randInt(1, 20);
         if (Utility.coinToss()) {
             color = new Yellow();
         } else {
@@ -170,25 +128,19 @@ class Nourishment {
         }
     }
 
-    public Nourishment move() {
-        Nourishment nourishment
-                = new Nourishment(
-                        new Posn(this.posn.x, this.posn.y + rate),
-                        this.width, this.height, this.rate);
+    public WorldImage drawImage() {
+        WorldImage nourishment = new RectangleImage(this.posn, this.width, this.height, this.color);
+
         return nourishment;
     }
 
-    public WorldImage drawImage() {
-        WorldImage nourishment;
-        if (Utility.coinToss()) {
-            //in the case of true, return block that has food color
-            //FOOD
-            nourishment = new RectangleImage(this.posn, this.width, this.height, colorFood);
-        } else {
-            //false, Poison image
-            nourishment = new RectangleImage(this.posn, this.width, this.height, colorPoison);
-        }
-        return nourishment;
+    public void move() {
+        this.posn.y = (this.posn.y + rate) % 700;
+//        Nourishment nourishment
+//                = new Nourishment(
+//                        new Posn(this.posn.x, this.posn.y + rate),
+//                        this.width, this.height, this.rate);
+//        return nourishment;
     }
 
     public boolean isPoison() {
@@ -199,21 +151,35 @@ class Nourishment {
             return true;
         }
     }
+ 
+    public boolean beingEatenHuh(Fishy fish) {
+        int a = this.posn.x;
+        int b = fish.pin.x;
+        int c = this.posn.y;
+        int d = fish.pin.y;
+
+        //int halfNourishWidth = this.width / 2;
+        int halfFishWidth = fish.width / 2;
+        //int halfNourishHeight = this.height / 2;
+        int halfFishHeight = fish.height / 2;
+
+        if (Math.abs(a - b) < (halfFishWidth)
+                && (Math.abs(c - d) < (halfFishHeight))) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }
 
-public class Game1 extends World {
+class Game1 extends World {
 
     int screenWIDTH = 500;
     int screenHEIGHT = 750;
     static Fishy fishy;
-    //Nourishment nourishment;
     int lives;
     int score;
-    int x = screenWIDTH / 2;
-    int y = screenHEIGHT / 2;
-    static Posn center = new Posn(250, 375);
-    Random rand = new Random();
-    int randNum = rand.nextInt();
     String backFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/tankback.png");
     WorldImage background;
     LinkedList nourishments;
@@ -227,39 +193,22 @@ public class Game1 extends World {
         this.lives = lives;
         this.score = score;
 //            this.nourishments;
-        background = new FromFileImage(center, backFileName);
+        background = new FromFileImage(new Posn(250, 325), backFileName);
 
-    }
-
-    public WorldImage makeImage() {
-            //overlaying fish image on the background image.
-
-        Iterator<Nourishment> yay = nourishments.listIterator(0);
-
-        WorldImage world = new OverlayImages(this.fishy.fish,
-                new OverlayImages(
-                        new TextImage(new Posn(400, 20), "Lives:  " + lives, 20, new Black()),
-                        new OverlayImages(
-                                new TextImage(new Posn(400, 40), "Score:  " + score, 20, new Black()), this.background)));
-
-        while (yay.hasNext()) {
-            world = new OverlayImages(world, yay.next().drawImage());
-        }
-
-        return world;
     }
 
     public World onKeyEvent(String ke) {
-        if (ke.equals("q")) {
-            return this.endOfWorld("Goodbye! See you later!");
-        } else {
-            this.fishy.moveFishy(ke);
-            return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, this.fishy, this.nourishments);
-        }
+
+        fishy.moveFishy(ke);
+        return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, fishy, this.nourishments);
 
     }
 
     public World onTick() {
+        
+//      LinkedList nourishments = new LinkedList();
+//      nourishments.add(new Nourishment());
+
         Iterator<Nourishment> yay = nourishments.listIterator(0);
 
         while (yay.hasNext()) {
@@ -268,53 +217,81 @@ public class Game1 extends World {
         }
 
         yay = nourishments.listIterator(0);
+        
         while (yay.hasNext()) {
             Nourishment listNourishment = yay.next();
-            if (fishy.eatHuh(listNourishment) && (!fishy.poisonedHuh(listNourishment))) {
+            if (listNourishment.beingEatenHuh(fishy) && (listNourishment.isPoison())) {
+                lives--;
+            } else if (listNourishment.beingEatenHuh(fishy) && (!listNourishment.isPoison())){
                 score++;
-            } else {
-                lives++;
             }
         }
 
         return new Game1(this.screenWIDTH, this.screenHEIGHT, this.lives, this.score, this.fishy, this.nourishments);
     }
+    
+    public WorldImage makeImage() {
+        //overlaying fish image on the background image.
 
-    public boolean isDeadHuh() {
-        //if fish has no more lives, fishy dies. 
-        if (this.lives == 0) {
-            return true;
-        } else {
-            return false;
+        Iterator<Nourishment> yay = nourishments.listIterator(0);
+
+        WorldImage world = new OverlayImages(this.background,
+                new OverlayImages(
+                        new TextImage(new Posn(400, 20), "Lives:  " + lives, 20, new Black()),
+                        new OverlayImages(
+                                new TextImage(new Posn(400, 40), "Score:  " + score, 20, new Black()), fishy.fishImage())));
+
+        while (yay.hasNext()) {
+            world = new OverlayImages(world, yay.next().drawImage());
         }
+
+        return world;
     }
 
+
+
+
+
+//    public boolean isDeadHuh() {
+//        //if fish has no more lives, fishy dies. 
+//        if (lives < 1) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
     public WorldEnd worldEnd() {
-        if (isDeadHuh()) {
+        if (lives < 1) {
             //if fishy is dead, game ends.
             return new WorldEnd(true,
                     //overlay the background with text that displays game over, and the final score
                     new OverlayImages(background,
-                            new OverlayImages(new TextImage(new Posn(x, y - 30), "GAME OVER", 30, new Black()),
-                                    new TextImage(new Posn(x, y), "Final Score: " + score, 20, new Black()))));
+                            new OverlayImages(new TextImage(new Posn(250, 375), "GAME OVER", 30, new Black()),
+                                    new TextImage(new Posn(250, 415), "Final Score: " + score, 20, new Black()))));
         } else {
             //if not dead, just return normal image. 
             return new WorldEnd(false, this.makeImage());
         }
     }
 
-    public static void main(String[] args) throws NullPointerException {
+    public static void main(String[] args) {
 
         LinkedList yayNora = new LinkedList();
         yayNora.add(new Nourishment());
         yayNora.add(new Nourishment());
         yayNora.add(new Nourishment());
         yayNora.add(new Nourishment());
+        yayNora.add(new Nourishment());
+        yayNora.add(new Nourishment());
+        yayNora.add(new Nourishment());
+        yayNora.add(new Nourishment());
 
-            // public Game1(int width, int height, int lives, int score, 
-        //              Fishy fishy, LinkedList<Nourishment> nourishments)
-        Game1 game = new Game1(500, 750, 3, 0, new Fishy(new Posn(250, 375),fishy.width, fishy.height, fishy.fishImage()), yayNora);
-        game.bigBang(500, 750, 0.1);
+//(int width, int height, int lives, int score, Fishy fishy, LinkedList<Nourishment> nourishments) 
+//(Posn pin, int width, int height, WorldImage fish) 
+        //Posn pin, IColor color, int width, int height
+        Game1 game = new Game1(500, 700, 3, 0, new Fishy(new Posn(250, 375), new Blue(), 25, 25), yayNora);
+        game.bigBang(500, 700, 0.1);
 
     }
 

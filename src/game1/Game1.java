@@ -45,18 +45,18 @@ class Fishy {
         int outBoundsDown = 700;
         if (ke.equals("right") && ((this.pin.x + this.width) <= outBoundsRight)) {
             // if the fish moves to the right, AND the right most point of fish image is not out of bounds,
-            this.pin = new Posn(this.pin.x + 1, this.pin.y);
-            //this.pin = new Posn(this.pin.x + this.width, this.pin.y);
+
+            this.pin = new Posn(this.pin.x + this.width, this.pin.y);
             // move fish to the right. 
         } else if (ke.equals("left") && ((this.pin.x - this.width) >= outBoundsLeft)) {
-            this.pin = new Posn(this.pin.x - 1, this.pin.y);
-           // this.pin = new Posn(this.pin.x - this.width, this.pin.y);
+
+            this.pin = new Posn(this.pin.x - this.width, this.pin.y);
         } else if (ke.equals("up") && ((this.pin.y - this.height) >= outBoundsUp)) {
-            this.pin = new Posn(this.pin.x, this.pin.y - 1);
-            //this.pin = new Posn(this.pin.x, this.pin.y - this.height);
+
+            this.pin = new Posn(this.pin.x, this.pin.y - this.height);
         } else if (ke.equals("down") && ((this.pin.y + this.height / 2) <= outBoundsDown)) {
-            this.pin = new Posn(this.pin.x, this.pin.y + 1);
-            //this.pin = new Posn(this.pin.x, this.pin.y + this.height);
+//            this.pin = new Posn(this.pin.x, this.pin.y + 5);
+            this.pin = new Posn(this.pin.x, this.pin.y + this.height);
         }
     }
 
@@ -119,7 +119,7 @@ class Nourishment {
     }
 
     public boolean isPoison() {
-        if (Utility.coinToss()) {
+        if (this.color == new Yellow()) {
             //in the case of true, nourishment is food, thus not poison
             return false;
         } else {
@@ -236,19 +236,31 @@ class Game1 extends World {
 //        }
 //    }
 
-    public WorldEnd worldEnd() {
-        if (lives < 1) {
-            //if fishy is dead, game ends.
-            return new WorldEnd(true,
-                    //overlay the background with text that displays game over, and the final score
-                    new OverlayImages(background,
-                            new OverlayImages(new TextImage(new Posn(250, 375), "GAME OVER", 30, new Black()),
-                                    new TextImage(new Posn(250, 415), "Final Score: " + score, 20, new Black()))));
-        } else {
-            //if not dead, just return normal image. 
-            return new WorldEnd(false, this.makeImage());
-        }
-    }
+//    public WorldEnd worldEnd() {
+//        if (lives < 1) {
+//            //if fishy is dead, game ends.
+//            return new WorldEnd(true,
+//                    //overlay the background with text that displays game over, and the final score
+//                    new OverlayImages(background,
+//                            new OverlayImages(new TextImage(new Posn(250, 375), "GAME OVER", 30, new Black()),
+//                                    new TextImage(new Posn(250, 415), "Final Score: " + score, 20, new Black()))));
+//        } else {
+//            //if not dead, just return normal image. 
+//            return new WorldEnd(false, this.makeImage());
+//        }
+//    }
+    
+    	public WorldEnd worldEnds(){
+		if(lives < 1){
+		return new WorldEnd(true, 
+			new OverlayImages(background,
+			new OverlayImages(new TextImage(new Posn(250, 25), "Fishy Frenzy!", 20, 1, new Black()),
+			new OverlayImages(new TextImage(new Posn(250, 300), "GAME OVER!!!!", 30, 1, new Black()),
+				new TextImage(new Posn(250, 400), "Final Score:   " + score, 20, 1, new Black())))));
+	}
+	else 
+		return new WorldEnd(false, this.makeImage());
+}
 
     public static void main(String[] args) {
 
@@ -265,7 +277,7 @@ class Game1 extends World {
 //(int width, int height, int lives, int score, Fishy fishy, LinkedList<Nourishment> nourishments) 
 //(Posn pin, int width, int height, WorldImage fish) 
         //Posn pin, IColor color, int width, int height
-        Game1 game = new Game1(500, 700, 3, 0, new Fishy(new Posn(250, 375), new Green(), 25, 25), yayNora);
+        Game1 game = new Game1(500, 700, 3, 0, new Fishy(new Posn(250, 375), new (255-165-0), 25, 25), yayNora);
         game.bigBang(500, 700, 0.1);
 
     }

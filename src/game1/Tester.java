@@ -5,40 +5,15 @@
  */
 package game1;
 
+import game1.Game1;
+import tester.*;
+
 /**
  *
  * @author ldbruby95
  */
 public class Tester {
+    
 
-    public String testFoodDistance() {
-        String string = new String("hello, test test test string");
-        return string;
-        //filler template.
-    }
-
-    public String testPoisonDistance() {
-        String string = new String("hello, test test test string");
-        return string;
-        //filler template.
-    }
-
-    public String testEatHuh() {
-        String string = new String("hello, test test test string");
-        return string;
-        //filler template.
-    }
-
-    public String testKeyEvent() {
-        String string = new String("hello, test test test string");
-        return string;
-        //filler template.
-    }
-
-    public String testOutBounds() {
-        String string = new String("hello, test test test string");
-        return string;
-        //filler template.
-    }
 
 }

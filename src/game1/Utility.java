@@ -18,7 +18,7 @@ public class Utility {
         int scene = randomInts.nextInt();
         Math.abs(scene);
         int remainder = scene % 2;
-        return (remainder == 1);
+        return (remainder == 1 || remainder == 3);
     }
 
     public static int randInt(int min, int max) {
@@ -27,4 +27,14 @@ public class Utility {
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return randomNum;
     }
+        public static int dieRoll() {
+        Random randomInts = new Random();
+        int side = randomInts.nextInt();
+        Math.abs(side);
+        int remainder = side % 6;
+        return remainder;
+    }
+    
+
+    
 }

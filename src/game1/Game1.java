@@ -99,13 +99,7 @@ class Nourishment {
     IColor color;
     boolean isPoison;
 
-    public Nourishment(Posn posn, IColor color, int width, int height, int rate) {
-        this.width = width;
-        this.height = height;
-        this.rate = rate;
-        this.posn = posn;
-        // this.posn = new Posn(Utility.randInt(5, 495), 0);
-    }
+
 
     public Nourishment() {
         posn = (new Posn(Utility.randInt(0, 500), 0));

@@ -20,18 +20,29 @@ class Fishy {
     Nourishment nourishment;
     int width;// = fish.getWidth();
     int height;// = fish.getHeight();
-    int outBoundsRight = 500 - ((this.pin.x + this.width / 2));
-    int outBoundsLeft = 0 + ((this.pin.x - this.width / 2));
-    int outBoundsUp = 0 + ((this.pin.y = this.height / 2));
-    int outBoundsDown = 750 - ((this.pin.y + this.height / 2));
+    int outBoundsRight = 495;
+    int outBoundsLeft = 5;
+    int outBoundsUp = 5;
+    int outBoundsDown = 745;
 
     public Fishy(Posn pin, WorldImage fish) {
         this.fish = new FromFileImage(pin, fishFileName);
         this.width = fish.getWidth();
         this.height = fish.getHeight();
         this.pin = pin;
-        this.width = fish.getWidth();
-        this.height = fish.getHeight();
+
+        //        this.lives = 3; //initial with 3 lives
+//        this.score = 0; //initial score 0
+
+    }
+    
+        public Fishy(Posn pin, IColor color) {
+        this.fish = new FromFileImage(pin, fishFileName);
+        this.width = 10;
+        this.height = 10;
+        this.pin = pin;
+        this.color = color;
+
         //        this.lives = 3; //initial with 3 lives
 //        this.score = 0; //initial score 0
 
@@ -44,8 +55,13 @@ class Fishy {
         this.color = color;
     }
 
-    public WorldImage fishImage() {
-        fish = new FromFileImage(pin, fishFileName);
+//    public WorldImage fishImage() {
+//        fish = new FromFileImage(pin, fishFileName);
+//        return fish;
+//    }
+
+        public WorldImage fishImage() {
+        fish = new CircleImage(new Posn(25,25),5, new White());
         return fish;
     }
 
@@ -290,7 +306,7 @@ class Nourishment {
             }
         }
         
-        public static void main(String[] args) {
+        public static void main(String[] args) throws NullPointerException{
             
             LinkedList yayNora = new LinkedList();
             yayNora.add(new Nourishment());
@@ -300,8 +316,8 @@ class Nourishment {
             
             // public Game1(int width, int height, int lives, int score, 
             //              Fishy fishy, LinkedList<Nourishment> nourishments)
-            Game1 game = new Game1(550, 1000, 3, 0, new Fishy(center, fishy.fish), yayNora);
-            game.bigBang(550, 1000, 0.1);
+            Game1 game = new Game1(500, 750, 3, 0, new Fishy(new Posn(250, 375), new White()), yayNora);
+            game.bigBang(500, 750, 0.1);
             
         }
         

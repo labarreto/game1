@@ -277,7 +277,7 @@ class Game1 extends World {
 //(int width, int height, int lives, int score, Fishy fishy, LinkedList<Nourishment> nourishments) 
 //(Posn pin, int width, int height, WorldImage fish) 
         //Posn pin, IColor color, int width, int height
-        Game1 game = new Game1(500, 700, 3, 0, new Fishy(new Posn(250, 375), new (255-165-0), 25, 25), yayNora);
+        Game1 game = new Game1(500, 700, 3, 0, new Fishy(new Posn(250, 375), new White(), 25, 25), yayNora);
         game.bigBang(500, 700, 0.1);
 
     }

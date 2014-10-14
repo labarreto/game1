@@ -191,8 +191,10 @@ class Game1 extends World {
     //anytime one of the blocks is touched, it disappears. 
     public World onTick() {
         
-      LinkedList nourishments = new LinkedList();
-      nourishments.add(new Nourishment());
+        if (Utility.coinToss()) {
+            nourishments.add(new Nourishment());
+        }
+
         
         Iterator<Nourishment> yay = nourishments.listIterator(0);
 
@@ -254,20 +256,15 @@ class Game1 extends World {
 
     public static void main(String[] args) {
 
-//        LinkedList yayNora = new LinkedList();
-//        yayNora.add(new Nourishment());
-//        yayNora.add(new Nourishment());
-//        yayNora.add(new Nourishment());
-//        yayNora.add(new Nourishment());
-//        yayNora.add(new Nourishment());
-//        yayNora.add(new Nourishment());
-//        yayNora.add(new Nourishment());
-//        yayNora.add(new Nourishment());
+        LinkedList yayNora = new LinkedList();
+        yayNora.add(new Nourishment());
+        yayNora.add(new Nourishment());
+
 
 //(int width, int height, int lives, int score, Fishy fishy, LinkedList<Nourishment> nourishments) 
 //(Posn pin, int width, int height, WorldImage fish) 
         //Posn pin, IColor color, int width, int height
-        Game1 game = new Game1(500, 700, 3, 0, new Fishy(new Posn(250, 375), new White()), yayNora);
+        Game1 game = new Game1(500, 700, 10, 0, new Fishy(new Posn(250, 375), new White()), yayNora);
         game.bigBang(500, 700, 0.1);
     }
 

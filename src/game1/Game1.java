@@ -27,16 +27,16 @@ class Fishy {
 
     
     //I wanted to use a cute file image but couldn't figure it out :( 
-//    public WorldImage fishImage() {
-//        fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
-//        fish = new FromFileImage(pin, fishFileName);
-//        return fish;
-//    }
-    
     public WorldImage fishImage() {
-        fish = new RectangleImage(this.pin, this.width, this.height, this.color);
+        fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
+        fish = new FromFileImage(pin, fishFileName);
         return fish;
     }
+    
+//    public WorldImage fishImage() {
+//        fish = new RectangleImage(this.pin, this.width, this.height, this.color);
+//        return fish;
+//    }
 
     public void moveFishy(String ke) {
         int outBoundsRight = 500;
@@ -87,6 +87,7 @@ class Nourishment {
     int width = 10;
     int height = 10;
     IColor color;
+    boolean isPoison;
 
     public Nourishment(Posn posn, IColor color, int width, int height, int rate) {
         this.width = width;
@@ -103,8 +104,10 @@ class Nourishment {
         rate = Utility.randInt(1, 20);
         if (Utility.coinToss()) {
             color = new Yellow();
+            isPoison = false;
         } else {
             color = new Red();
+            isPoison = true;
         }
     }
 
@@ -119,12 +122,7 @@ class Nourishment {
     }
 
     public boolean isPoison() {
-        if (this.color == new Yellow()) {
-            //in the case of true, nourishment is food, thus not poison
-            return false;
-        } else {
-            return true;
-        }
+        return isPoison;
     }
  
     public boolean beingEatenHuh(Fishy fish) {
@@ -196,9 +194,9 @@ class Game1 extends World {
         while (yay.hasNext()) {
             Nourishment listNourishment = yay.next();
             if (listNourishment.beingEatenHuh(fishy) && (listNourishment.isPoison())) {
-                score++;
-            } else if (listNourishment.beingEatenHuh(fishy) && (!listNourishment.isPoison())){
                 lives--;
+            } else if (listNourishment.beingEatenHuh(fishy) && (!listNourishment.isPoison())){
+                score++;
             }
         }
 

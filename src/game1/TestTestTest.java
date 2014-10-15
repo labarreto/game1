@@ -38,7 +38,7 @@ public class TestTestTest {
     LinkedList yayNora = new LinkedList();
     String backFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/tankback.png");
     WorldImage background = new FromFileImage(new Posn(250, 325), backFileName);
-    Nourishment n0 = new Nourishment(new Posn(250,0));
+    Nourishment n0 = new Nourishment(new Posn(250, 0));
     Nourishment n1 = new Nourishment(new Posn(250, 350), 5);
     public int r1 = n1.rate;
     Nourishment n2 = new Nourishment(new Posn(495, 350));
@@ -170,25 +170,22 @@ public class TestTestTest {
         }
 
     }
-    
-    public boolean testMoveFishy(Tester t){
+
+    public boolean testMoveFishy(Tester t) {
         return t.checkExpect(checkMoveFishy(f1, "right"), true, "test moveFishy - right")
                 && t.checkExpect(checkMoveFishy(f1, "left"), true, "test moveFishy - left")
-        && t.checkExpect(checkMoveFishy(f1, "up"), true, "test moveFishy - up")
+                && t.checkExpect(checkMoveFishy(f1, "up"), true, "test moveFishy - up")
                 && t.checkExpect(checkMoveFishy(f1, "down"), true, "test moveFishy 0 down")
-                
-                &&t.checkExpect(checkMoveFishy(f2, "right"), true, "test moveFishy - right")
+                && t.checkExpect(checkMoveFishy(f2, "right"), true, "test moveFishy - right")
                 && t.checkExpect(checkMoveFishy(f2, "left"), true, "test moveFishy - left")
-        && t.checkExpect(checkMoveFishy(f2, "up"), true, "test moveFishy - up")
+                && t.checkExpect(checkMoveFishy(f2, "up"), true, "test moveFishy - up")
                 && t.checkExpect(checkMoveFishy(f2, "down"), true, "test moveFishy 0 down")
-                
-                &&t.checkExpect(checkMoveFishy(f1LEFT, "right"), true, "test moveFishy - right")
+                && t.checkExpect(checkMoveFishy(f1LEFT, "right"), true, "test moveFishy - right")
                 && t.checkExpect(checkMoveFishy(f1LEFT, "left"), true, "test moveFishy - left")
-        && t.checkExpect(checkMoveFishy(f1LEFT, "up"), true, "test moveFishy - up")
+                && t.checkExpect(checkMoveFishy(f1LEFT, "up"), true, "test moveFishy - up")
                 && t.checkExpect(checkMoveFishy(f1LEFT, "down"), true, "test moveFishy 0 down");
     }
 
-        
     public boolean checkMoveNourish(Nourishment n) {
 
         return (n.posn.y < n.move().posn.y);
@@ -218,8 +215,6 @@ public class TestTestTest {
                         true, "test random rate");
     }
 
-
-
     public boolean checkOnTick2(Game1 g1) {
         Game1 g1oT = g1.onTick();
         if (g1oT.nourishments.size() < g1.nourishments.size()) {
@@ -232,41 +227,41 @@ public class TestTestTest {
         return true;
     }
 
-//    // nourishment y before tick is less than nourishment y after tick. 
-//    public boolean checkOnTick3(Game1 g) {
-//        Game1 gg = g.onTick();
-//        Iterator<Nourishment> yay = g.nourishments.listIterator(0);
-//        Iterator<Nourishment> yay2 = gg.nourishments.listIterator(0);
-//        Nourishment n = yay.next();
-//        Nourishment nn = yay2.next();
-//        for (Nourishment n1 : g.nourishments) {
-//            for (Nourishment n2 : gg.nourishments) {
-//                if (nn.posn.y < n.posn.y) {
-//                    
-//            } if (n1.posn.y)
-//        }
-//        return true;
-//    }
-//
-//    
-//    
-//    public boolean testOnTick3(Tester t){
-//        return t.checkExpect(checkOnTick3(g1),
-//                true, "test onTick ")
-//                && t.checkExpect(checkOnTick3(g2),
-//                        true, "test onTick ");
-//    }
-
+    // nourishment y before tick is less than nourishment y after tick. 
+    public boolean checkOnTick3(Game1 g) {
+        Game1 gg = g.onTick();
+        boolean noneMissing = true;
+        for (Nourishment n : g.nourishments) {
+            boolean oneMatches = false;
+            for (Nourishment nn : gg.nourishments) {
+                if (n.rate == nn.rate && n.posn.x == nn.posn.x && n.posn.y < nn.posn.y) {
+                    oneMatches = true;
+                }
+            }
+            if ( ! oneMatches ) {
+               noneMissing = false;
+            }
+        }
+        return noneMissing;
+    }
+    
+    public boolean testOnTick3(Tester t){
+        return t.checkExpect(checkOnTick3(g1),
+                true, "test onTick ")
+                && t.checkExpect(checkOnTick3(g2),
+                        true, "test onTick ");
+    }
     public boolean testOnTick2(Tester t) {
         return t.checkExpect(checkOnTick2(g1),
                 true, "test onTick ");
     }
 
-        public boolean checkOnTick1(Game1 g2) {
+    public boolean checkOnTick1(Game1 g2) {
 
         return g2.nourishments.size() + 1 >= g2.onTick().nourishments.size();
 
     }
+
     public boolean testOnTick1(Tester t) {
         return t.checkExpect(checkOnTick1(g2),
                 true, "test onTick ")
@@ -284,7 +279,7 @@ public class TestTestTest {
                         true, "test onTick ")
                 && t.checkExpect(checkOnTick1(g1),
                         true, "test onTick ");
-         
+
     } //if nourishment is added based off of a coin toss, size plus one could be
     //more than or equal to size OnTick. all based off of a coin Toss. 
 

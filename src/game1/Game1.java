@@ -17,7 +17,7 @@ public class Game1 extends World {
     int score;
     String backFileName = new String("/Users/ldbruby95/NetBeansProjects/game1/tankback.png");
     WorldImage background;
-    LinkedList nourishments;
+    LinkedList<Nourishment> nourishments;
 
     public Game1(int width, int height, int lives, int score, Fishy fishy, 
             LinkedList<Nourishment> nourishments) {
@@ -28,8 +28,6 @@ public class Game1 extends World {
         this.lives = lives;
         this.score = score;
         background = new FromFileImage(new Posn(250, 325), backFileName);
-        System.out.println("starting pin is at: (" +fishy.pin.x + 
-                ", " + fishy.pin.y + ")");
     }
 
     public World onKeyEvent(String ke) {

@@ -14,17 +14,17 @@ class Fishy {
     WorldImage fish;
     int width;
     int height;
-    IColor color;
 
-    public Fishy(Posn pin, IColor color) {//){) {
-        this.pin = pin;
+
+    public Fishy() {//){) {
+        this.pin = new Posn(250, 375);
         fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
         fish = new FromFileImage(pin, fishFileName);
         this.width = fish.getWidth();
         this.height = fish.getHeight();
         //System.out.println("width: " + width +"height: " + height);
         //width is 50, height is 40
-        this.color = color;
+
     }
 
     public WorldImage fishImage() {
@@ -206,8 +206,7 @@ class Game1 extends World {
 
         yayNora.add(new Nourishment());
 
-        Game1 game = new Game1(500, 700, 15, 0, new Fishy(new Posn(250, 375), 
-                new White()), yayNora);
+        Game1 game = new Game1(500, 700, 15, 0, new Fishy(), yayNora);
         game.bigBang(500, 700, 0.125);
     }
 

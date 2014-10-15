@@ -27,13 +27,7 @@ public class Utility {
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return randomNum;
     }
-        public static int dieRoll() {
-        Random randomInts = new Random();
-        int side = randomInts.nextInt();
-        Math.abs(side);
-        int remainder = side % 6;
-        return remainder;
-    }
+
     
 
     

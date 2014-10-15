@@ -5,7 +5,7 @@
  */
 package game1;
 
-import tester.*;
+
 import javalib.funworld.*;
 import javalib.colors.*;
 import javalib.worldimages.*;

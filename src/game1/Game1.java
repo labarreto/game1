@@ -1,11 +1,11 @@
 package game1;
 
-import tester.*;
+
 import javalib.funworld.*;
 import javalib.colors.*;
 import javalib.worldimages.*;
 import java.util.*;
-import java.awt.Color;
+
 
 
 public class Game1 extends World {
@@ -28,6 +28,8 @@ public class Game1 extends World {
         this.lives = lives;
         this.score = score;
         background = new FromFileImage(new Posn(250, 325), backFileName);
+        System.out.println("starting pin is at: (" +fishy.pin.x + 
+                ", " + fishy.pin.y + ")");
     }
 
     public World onKeyEvent(String ke) {

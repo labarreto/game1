@@ -23,6 +23,7 @@ public class Fishy {
         fish = new FromFileImage(pin, fishFileName);
         this.width = fish.getWidth();
         this.height = fish.getHeight();
+        
     }
 
     public WorldImage fishImage() {
@@ -34,15 +35,14 @@ public class Fishy {
         int outBoundsLeft = 0;
         int outBoundsUp = 0;
         int outBoundsDown = 700;
-        
+        Fishy fish = new Fishy(new Posn(250,350));
+
         if (ke.equals("right") && ((this.pin.x + 10) <= outBoundsRight)) {
             this.pin = new Posn(this.pin.x + 10, this.pin.y);
             return new Fishy(this.pin);
-            
         } else if (ke.equals("left") && ((this.pin.x - 10) >= outBoundsLeft)) {
             this.pin = new Posn(this.pin.x - 10, this.pin.y);
-            return new Fishy(this.pin);
-            
+            return new Fishy(this.pin);       
         } else if (ke.equals("up") && ((this.pin.y - 10) >= outBoundsUp)) {
             this.pin = new Posn(this.pin.x, this.pin.y - 10);
             return new Fishy(this.pin);

@@ -38,14 +38,10 @@ public class Game1 extends World {
                 this.score, fishy, this.nourishments);
     }
 
-    public World onTick() {
+    public Game1 onTick() {
         Nourishment nourish = new Nourishment();
         if (Utility.coinToss()) {
             nourishments.add(new Nourishment());
-            if (!nourish.isPoison) {
-                nourishments.add(nourish);
-            }
-
         }
 
         Iterator<Nourishment> yay = nourishments.listIterator(0);

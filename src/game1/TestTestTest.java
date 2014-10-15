@@ -25,6 +25,7 @@ public class TestTestTest {
     public int score;
     public int lives;
     public boolean worldEnd;
+    Nourishment nourishment = new Nourishment();
 
     Fishy f1 = new Fishy(new Posn(250, 350));
     Fishy f1RIGHT = new Fishy(new Posn(260, 350));
@@ -49,20 +50,33 @@ public class TestTestTest {
     Game1 g1UP = new Game1(500, 700, 15, 0, this.f1UP, yayNora);
     Game1 g1DOWN = new Game1(500, 700, 15, 0, this.f1DOWN, yayNora);
 
-    public boolean testMoveFish(Tester t) {
-
-        return t.checkExpect(this.f1.moveFishy("right"),
-                this.f1RIGHT, "test moveFishy - right " + "\n")
-                
-                && t.checkExpect(this.f1.moveFishy("left"),
-                this.f1LEFT, "test moveFishy - left " + "\n")
-                
-                && t.checkExpect(this.f1.moveFishy("up"),
-                this.f1UP, "test moveFishy - up " + "\n")
-                
-                && t.checkExpect(this.f1.moveFishy("down"),
-                this.f1DOWN, "test moveFishy - down " + "\n");
-    }
+//    public boolean testMoveFish(Tester t) {
+//
+//        return t.checkExpect(this.f1.moveFishy("right"),
+//                this.f1RIGHT, "test moveFishy - right " + "\n")
+//                && t.checkExpect(this.f1.moveFishy("up"),
+//                this.f1UP, "test moveFishy - up " + "\n")
+//                
+//                && t.checkExpect(this.f1.moveFishy("down"),
+//                 this.f1DOWN, "test moveFishy - down " + "\n")
+//                
+//                && t.checkExpect(this.f2.moveFishy("right"),
+//                this.f2RIGHT, "test moveFishy - right " + "\n")
+//                
+//                && t.checkExpect(this.f2.moveFishy("left"),
+//                this.f2LEFT, "test moveFishy - left " + "\n")
+//                
+//                && t.checkExpect(this.f2.moveFishy("up"),
+//                this.f2UP, "test moveFishy - up " + "\n")
+//                
+//                && t.checkExpect(this.f2.moveFishy("down"),
+//                this.f2DOWN, "test moveFishy - down " + "\n")
+//                
+//                && t.checkExpect(this.f1.moveFishy("left"),
+//                this.f1LEFT, "test moveFishy - left " + "\n");
+//                
+//
+//    }
 
     public boolean testOnKeyEvent(Tester t) {
         return t.checkExpect(this.g1.onKeyEvent("right"),
@@ -73,8 +87,39 @@ public class TestTestTest {
                         this.g1UP, "test moveFishy - up " + "\n")
                 && t.checkExpect(this.g1.onKeyEvent("down"),
                         this.g1DOWN, "test moveFishy - down " + "\n");
-
     }
+    
+    public boolean checkRandInt() {
+        int rand = Utility.randInt(0,500);
+        return (rand <=500 && rand >=0);
+    }
+    
+      public boolean testRandom(Tester t) {
+        return t.checkExpect(this.checkRandInt(),
+                true, "test RandInt")
+                && t.checkExpect(this.checkRandInt(),
+                        true, "test RandInt")
+                && t.checkExpect(this.checkRandInt(),
+                        true, "test RandInt")
+                && t.checkExpect(this.checkRandInt(),
+                        true, "test RandInt")
+                && t.checkExpect(this.checkRandInt(),
+                        true, "test RandInt");
+    }
+      
+      public boolean checkCoinToss() {
+          boolean coinToss = Utility.coinToss();
+          return (coinToss == true || coinToss == false);
+      }
+      
+      public boolean testCoinToss(Tester t) {
+          return t.checkExpect(this.checkCoinToss(),
+                  true, "test CoinToss")
+                  && t.checkExpect(this.checkCoinToss(),
+                          true, "test CoinToss")
+                  && t.checkExpect(this.checkCoinToss(),
+                          true,"test CoinToss");
+      }
     
     public static void main(String[] args) {
         TestTestTest test = new TestTestTest();

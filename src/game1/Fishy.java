@@ -54,7 +54,7 @@ public class Fishy {
     }
     
         public Fishy(Posn pin) {
-        this.pin = new Posn(250, 350);
+        this.pin = pin;
         fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
         fish = new FromFileImage(pin, fishFileName);
         this.width = fish.getWidth();

@@ -35,6 +35,20 @@ public class Nourishment {
             isPoison = true;
         }
     }
+    
+    public Nourishment (Posn posn) {
+        this.posn = posn;
+        width = 10;
+        height = 10;
+        rate = Utility.randInt(3, 15);
+        if (Utility.coinToss()) {
+            color = new Yellow();
+            isPoison = false;
+        } else {
+            color = new Red();
+            isPoison = true;
+        }
+    }
 
     public WorldImage nourishImage() {
         WorldImage nourishment = new RectangleImage(this.posn, this.width,
@@ -42,8 +56,10 @@ public class Nourishment {
         return nourishment;
     }
 
-    public void move() {
-        this.posn.y = (this.posn.y + rate) % 700;
+    
+    public Nourishment move() {
+        this.posn = new Posn(this.posn.x, this.posn.y + rate %700);
+        return new Nourishment(this.posn);
     }
 
     public boolean beingEatenHuh(Fishy fish) {

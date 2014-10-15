@@ -7,103 +7,8 @@ import javalib.worldimages.*;
 import java.util.*;
 import java.awt.Color;
 
-class Fishy {
 
-    Posn pin;
-    String fishFileName;
-    WorldImage fish;
-    int width;
-    int height;
-
-
-    public Fishy() {//){) {
-        this.pin = new Posn(250, 375);
-        fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
-        fish = new FromFileImage(pin, fishFileName);
-        this.width = fish.getWidth();
-        this.height = fish.getHeight();
-        //System.out.println("width: " + width +"height: " + height);
-        //width is 50, height is 40
-
-    }
-
-    public WorldImage fishImage() {
-        return fish.getMovedTo(pin);
-    }
-
-    public void moveFishy(String ke) {
-        int outBoundsRight = 500;
-        int outBoundsLeft = 0;
-        int outBoundsUp = 0;
-        int outBoundsDown = 700;
-
-        if (ke.equals("right") && ((this.pin.x + 10) <= outBoundsRight)) {
-            this.pin = new Posn(this.pin.x + 10, this.pin.y);
-        } else if (ke.equals("left") && ((this.pin.x - 10) >= outBoundsLeft)) {
-            this.pin = new Posn(this.pin.x - 10, this.pin.y);
-        } else if (ke.equals("up") && ((this.pin.y - 10) >= outBoundsUp)) {
-            this.pin = new Posn(this.pin.x, this.pin.y - 10);
-        } else if (ke.equals("down") && ((this.pin.y + 10) <= outBoundsDown)) {
-            this.pin = new Posn(this.pin.x, this.pin.y + 10);
-        }
-    }
-}
-
-class Nourishment {
-
-    Posn posn;
-    int rate;
-    int width = 10;
-    int height = 10;
-    IColor color;
-    boolean isPoison;
-
-    public Nourishment() {
-        posn = (new Posn(Utility.randInt(0, 500), 0));
-        width = 10;
-        height = 10;
-        rate = Utility.randInt(3, 15);
-        if (Utility.coinToss()) {
-            color = new Yellow();
-            isPoison = false;
-        } else {
-            color = new Red();
-            isPoison = true;
-        }
-    }
-
-    public WorldImage drawImage() {
-        WorldImage nourishment = new RectangleImage(this.posn, this.width, 
-                this.height, this.color);
-        return nourishment;
-    }
-
-    public void move() {
-        this.posn.y = (this.posn.y + rate) % 700;
-    }
-
-    public boolean isPoison() {
-        return isPoison;
-    }
-
-    public boolean beingEatenHuh(Fishy fish) {
-        int a = this.posn.x;
-        int b = fish.pin.x;
-        int c = this.posn.y;
-        int d = fish.pin.y;
-
-        int halfFishWidth = fish.width / 2;
-        int halfFishHeight = fish.height / 2;
-        if (Math.abs(a - b) < (halfFishWidth)
-                && (Math.abs(c - d) < (halfFishHeight))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-
-class Game1 extends World {
+public class Game1 extends World {
 
     int screenWIDTH = 500;
     int screenHEIGHT = 750;
@@ -154,7 +59,7 @@ class Game1 extends World {
             //(should always be true until world end
             Nourishment listNourishment = yay.next();
             if (listNourishment.beingEatenHuh(fishy)) {
-                if (listNourishment.isPoison()) {
+                if (listNourishment.isPoison) {
                     lives--;
                 } else {
                     score++;
@@ -178,7 +83,7 @@ class Game1 extends World {
                                 new TextImage(new Posn(400, 40), "Score:  " 
                                         + score, 20, new Black()), fishy.fishImage())));
         while (yay.hasNext()) {
-            world = new OverlayImages(world, yay.next().drawImage());
+            world = new OverlayImages(world, yay.next().nourishImage());
         }
 
         return world;
@@ -203,11 +108,12 @@ class Game1 extends World {
     public static void main(String[] args) {
 
         LinkedList yayNora = new LinkedList();
-
         yayNora.add(new Nourishment());
 
         Game1 game = new Game1(500, 700, 15, 0, new Fishy(), yayNora);
         game.bigBang(500, 700, 0.125);
     }
+    
+    
 
 }

@@ -19,7 +19,7 @@ public class Fishy {
 
     public Fishy() {
         this.pin = new Posn(250, 350);
-        fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
+        fishFileName = "fishy.png";
         fish = new FromFileImage(pin, fishFileName);
         this.width = fish.getWidth();
         this.height = fish.getHeight();
@@ -55,7 +55,7 @@ public class Fishy {
     
         public Fishy(Posn pin) {
         this.pin = pin;
-        fishFileName = "/Users/ldbruby95/NetBeansProjects/game1/fishy.png";
+        fishFileName = "tankback.png";
         fish = new FromFileImage(pin, fishFileName);
         this.width = fish.getWidth();
         this.height = fish.getHeight();
